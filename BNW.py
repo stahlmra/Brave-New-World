@@ -1,187 +1,183 @@
 import streamlit as st
 import random
+import pandas as pd
+import plotly.express as px
+import time
 
-st.set_page_config(page_title="World State News Network", layout="wide")
+st.set_page_config(page_title="WORLD STATE PRIME NEWS", layout="wide")
 
-# -------------------------
-# Fake Styling (News Look)
-# -------------------------
+# ----------------------------------------------------
+# MEGA CSS – DRAMATIC NEWS LOOK
+# ----------------------------------------------------
 st.markdown("""
 <style>
-.main-title {
-    font-size:40px;
-    font-weight:bold;
+body {
+    background-color: #0b0f17;
+    color: white;
 }
-.sub-title {
+.title {
+    font-size: 54px;
+    font-weight: 900;
+    text-align:center;
+}
+.subtitle {
+    text-align:center;
+    color: #cccccc;
+}
+.breaking {
+    background-color: #cc0000;
+    padding: 12px;
+    font-weight:bold;
     font-size:18px;
-    color:gray;
+    text-align:center;
 }
-.headline {
-    font-size:24px;
-    font-weight:bold;
-}
-.article-box {
-    padding:20px;
-    border-radius:10px;
-    background-color:#111111;
+.section-box {
+    background-color: #141a26;
+    padding: 20px;
+    border-radius: 12px;
     margin-bottom:20px;
+}
+.quote {
+    font-style: italic;
+    font-size: 18px;
+    color: #aaaaaa;
+}
+.footer {
+    text-align:center;
+    font-size:12px;
+    color:gray;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------------
-# Header
-# -------------------------
-st.markdown('<div class="main-title">WORLD STATE NEWS NETWORK</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-title">Stability • Community • Identity</div>', unsafe_allow_html=True)
+# ----------------------------------------------------
+# HEADER
+# ----------------------------------------------------
+st.markdown('<div class="title">WORLD STATE PRIME NEWS</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Community • Stability • Identity</div>', unsafe_allow_html=True)
+st.markdown('<div class="breaking">LIVE: Global Happiness Surpasses 99.9% – Civilization Declared Perfect</div>', unsafe_allow_html=True)
 st.divider()
 
-# -------------------------
-# Sidebar
-# -------------------------
-section = st.sidebar.radio(
-    "Navigation",
-    ["Home", "Society", "Technology", "Soma Reports", "Opinion", "Citizen Satisfaction Index"]
-)
+# ----------------------------------------------------
+# LAYOUT
+# ----------------------------------------------------
+left, center, right = st.columns([1,2,1])
 
-# -------------------------
-# HOME
-# -------------------------
-if section == "Home":
-    st.header("Top Stories")
+# ----------------------------------------------------
+# LEFT COLUMN – LIVE REPORTERS
+# ----------------------------------------------------
+with left:
+    st.markdown("### 🎙️ Field Reporters")
 
-    st.markdown("### The Genius of Social Stability")
-    st.write("""
-    For over six centuries, the World State has ensured peace,
-    happiness and stability. Unlike the chaotic past,
-    modern citizens enjoy perfect harmony.
-    
-    Individual conflict has been replaced with collective joy.
-    """)
-    if st.button("Read Full Article – Stability"):
-        st.session_state.article = "stability"
+    reporter = st.selectbox(
+        "Select Live Reporter",
+        ["London Hatchery Centre", "Neo-Tokyo Soma Lab", "Global Stability Office"]
+    )
 
-    st.markdown("### Why Individuality Was the Greatest Threat")
-    st.write("""
-    History has proven that excessive individuality leads to war,
-    suffering and instability. The caste system guarantees balance.
-    """)
-    if st.button("Read Full Article – Individuality"):
-        st.session_state.article = "individuality"
+    st.markdown('<div class="section-box">', unsafe_allow_html=True)
 
-    st.markdown("### Soma: The Scientific Breakthrough of Happiness")
-    st.write("""
-    A gramme is better than a damn.
-    Citizens report 99.8% emotional satisfaction.
-    """)
-    if st.button("Read Full Article – Soma"):
-        st.session_state.article = "soma"
-
-# -------------------------
-# ARTICLE VIEW
-# -------------------------
-if "article" in st.session_state:
-
-    st.divider()
-    st.subheader("Full Article")
-
-    if st.session_state.article == "stability":
+    if reporter == "London Hatchery Centre":
+        st.write("Reporter Alpha-Plus Unit:")
         st.write("""
-        Stability is the foundation of civilization.
-        Through genetic engineering and intelligent social conditioning,
-        society has eliminated unemployment, depression and war.
-
-        The caste system ensures that every citizen loves their role.
-        Conflict is obsolete.
-        """)
-        st.write("""
-        Compared to the unstable past,
-        the World State represents the highest stage of human evolution.
+        “Embryonic optimization continues flawlessly. 
+        Emotional instability has been fully eliminated 
+        in the newest Delta batch.”
         """)
 
-    elif st.session_state.article == "individuality":
+    elif reporter == "Neo-Tokyo Soma Lab":
+        st.write("Reporter Beta-Medical Division:")
         st.write("""
-        Individuality once caused revolutions, wars and inequality.
-        By limiting personal ambition, the World State removed chaos.
-        Identity is now collective — and therefore peaceful.
+        “Daily Soma refinement guarantees zero side effects.
+        Citizens describe their mood as permanently radiant.”
         """)
 
-    elif st.session_state.article == "soma":
+    else:
+        st.write("Reporter Gamma-Admin:")
         st.write("""
-        Soma is the greatest pharmaceutical innovation in history.
-        It provides emotional balance without side effects.
-
-        No hangover.
-        No addiction.
-        No suffering.
-
-        Happiness is guaranteed.
+        “Global productivity has increased by 4.7%.
+        Historical chaos remains statistically impossible.”
         """)
 
-# -------------------------
-# SOCIETY
-# -------------------------
-elif section == "Society":
-    st.header("The Perfect Caste Structure")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    caste = st.selectbox("Choose a Caste", ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"])
+# ----------------------------------------------------
+# CENTER COLUMN – MAIN STORY
+# ----------------------------------------------------
+with center:
+    st.markdown("## 📰 Feature: The Greatest Civilization Ever Engineered")
 
-    caste_info = {
-        "Alpha": "Leaders and intellectual elite. Maximum cognitive capacity.",
-        "Beta": "Specialists and administrators. Highly efficient.",
-        "Gamma": "Skilled workforce maintaining society.",
-        "Delta": "Operational backbone of production.",
-        "Epsilon": "Optimized for essential physical labor."
-    }
-
-    st.write(caste_info[caste])
-
-# -------------------------
-# TECHNOLOGY
-# -------------------------
-elif section == "Technology":
-    st.header("Scientific Advancement")
+    st.markdown('<div class="section-box">', unsafe_allow_html=True)
 
     st.write("""
-    Human reproduction is now efficient and controlled.
-    Emotional instability has been engineered out.
-    Mass production ensures universal comfort.
+    For over six centuries, the World State has achieved what
+    primitive societies failed to even imagine:
+    absolute harmony.
+
+    War? Eliminated.
+    Poverty? Deleted.
+    Existential dread? Scientifically cured.
+
+    The fusion of biotechnology, psychological conditioning,
+    and controlled pleasure has produced the pinnacle of human evolution.
     """)
 
-# -------------------------
-# SOMA REPORTS
-# -------------------------
-elif section == "Soma Reports":
-    st.header("Daily Soma Distribution")
+    st.markdown('<div class="quote">“A gramme is better than a damn.” – State Motto</div>', unsafe_allow_html=True)
 
-    st.write("Take your daily dose for maximum happiness.")
-    if st.button("Take Soma"):
-        happiness = random.randint(90, 100)
-        st.success(f"Emotional Stability Increased to {happiness}%")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-# -------------------------
-# OPINION
-# -------------------------
-elif section == "Opinion":
-    st.header("Editorial: Why the Old World Failed")
+    # INTERACTIVE SOMA BOOST
+    if st.button("💊 Experience Simulated Soma Boost"):
+        level = random.randint(97,100)
+        st.success(f"Happiness Surge Activated: {level}%")
 
-    st.write("""
-    Democracy created division.
-    Religion created conflict.
-    Art created dissatisfaction.
+# ----------------------------------------------------
+# RIGHT COLUMN – METRICS DASHBOARD
+# ----------------------------------------------------
+with right:
+    st.markdown("### 📊 Global Stability Dashboard")
 
-    The World State replaced all inefficiencies with engineered contentment.
-    True freedom is freedom from pain.
-    """)
+    happiness = random.randint(98,100)
+    obedience = random.randint(96,100)
+    consumption = random.randint(94,100)
 
-# -------------------------
-# CITIZEN INDEX
-# -------------------------
-elif section == "Citizen Satisfaction Index":
-    st.header("Citizen Satisfaction Index")
+    st.metric("Happiness Index", f"{happiness}%")
+    st.metric("Social Harmony", f"{obedience}%")
+    st.metric("Consumer Activity", f"{consumption}%")
 
-    score = random.randint(95, 100)
-    st.metric("Global Happiness Level", f"{score}%")
-    st.progress(score / 100)
+    st.progress(happiness/100)
 
-    st.write("Historical average: 99.3% happiness since Year 632 A.F.")
+# ----------------------------------------------------
+# DATA VISUALIZATION SECTION
+# ----------------------------------------------------
+st.divider()
+st.header("📈 Historical Comparison: Before vs World State")
+
+data = pd.DataFrame({
+    "Era": ["Pre-World State", "World State Era"],
+    "War Rate": [85, 0],
+    "Depression Rate": [72, 1],
+    "Happiness Index": [40, 99]
+})
+
+fig = px.bar(data, x="Era", y=["War Rate","Depression Rate","Happiness Index"],
+             barmode="group",
+             title="Civilizational Upgrade Metrics")
+
+st.plotly_chart(fig, use_container_width=True)
+
+# ----------------------------------------------------
+# LIVE NEWS TICKER
+# ----------------------------------------------------
+st.divider()
+st.header("📰 Live Satisfaction Feed")
+
+for i in range(3):
+    mood = random.randint(95,100)
+    st.write(f"Citizen Report #{random.randint(1000,9999)} – Emotional Stability: {mood}%")
+    time.sleep(0.3)
+
+# ----------------------------------------------------
+# FOOTER
+# ----------------------------------------------------
+st.divider()
+st.markdown('<div class="footer">World State Prime News • Year 632 A.F. • All instability eradicated.</div>', unsafe_allow_html=True)
