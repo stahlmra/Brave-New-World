@@ -166,15 +166,98 @@ fig = px.bar(data, x="Era", y=["War Rate","Depression Rate","Happiness Index"],
 st.plotly_chart(fig, use_container_width=True)
 
 # ----------------------------------------------------
-# LIVE NEWS TICKER
+# EPIC LIVE SATISFACTION FEED
 # ----------------------------------------------------
 st.divider()
-st.header("📰 Live Satisfaction Feed")
+st.header("🟢 LIVE GLOBAL SATISFACTION STREAM")
 
-for i in range(3):
-    mood = random.randint(95,100)
-    st.write(f"Citizen Report #{random.randint(1000,9999)} – Emotional Stability: {mood}%")
-    time.sleep(0.3)
+st.markdown("""
+Real-time emotional analytics from across the World State.
+All data verified by the Central Stability Authority.
+""")
+
+citizen_quotes = [
+    "I cannot imagine instability ever existing.",
+    "Soma clarified my emotional alignment instantly.",
+    "I adore my designated caste assignment.",
+    "History sounds exhausting and unnecessary.",
+    "Choice seems inefficient compared to harmony.",
+    "I feel permanently radiant today.",
+    "The Hatchery optimization is extraordinary.",
+]
+
+castes = ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"]
+locations = [
+    "London Hatchery Centre",
+    "Neo-Berlin Production Zone",
+    "Pacific Soma Refinery",
+    "New Mumbai Conditioning Hub",
+    "Arctic Climate Control Station"
+]
+
+# Anzahl Meldungen einstellbar
+feed_length = st.slider("Select Feed Intensity", 3, 15, 8)
+
+emotional_trend = []
+
+for i in range(feed_length):
+    stability = random.randint(95, 100)
+    emotional_trend.append(stability)
+
+    citizen_id = random.randint(10000, 99999)
+    caste = random.choice(castes)
+    location = random.choice(locations)
+    quote = random.choice(citizen_quotes)
+
+    if stability >= 99:
+        alert = "🚨 POSITIVITY SURGE DETECTED"
+    else:
+        alert = "Stability within optimal parameters"
+
+    st.markdown(f"""
+    **Citizen ID:** {citizen_id}  
+    **Caste:** {caste}  
+    **Location:** {location}  
+    **Emotional Stability:** {stability}%  
+    **Status:** {alert}  
+
+    > “{quote}”
+    """)
+    st.divider()
+
+# -----------------------------------------
+# Emotional Trend Mini-Chart
+# -----------------------------------------
+import pandas as pd
+import plotly.express as px
+
+trend_df = pd.DataFrame({
+    "Update Cycle": list(range(1, feed_length + 1)),
+    "Emotional Stability": emotional_trend
+})
+
+fig2 = px.line(
+    trend_df,
+    x="Update Cycle",
+    y="Emotional Stability",
+    markers=True,
+    title="Real-Time Emotional Stability Trend"
+)
+
+st.plotly_chart(fig2, use_container_width=True)
+
+# -----------------------------------------
+# Central Authority Statement
+# -----------------------------------------
+st.markdown("""
+### 🏛️ Official Statement – Central Stability Authority
+
+“Our predictive algorithms confirm that dissatisfaction
+remains statistically impossible. Civilization continues
+to operate at peak emotional efficiency.”
+
+— Office of Global Harmony
+""")
 
 # ----------------------------------------------------
 # FOOTER
