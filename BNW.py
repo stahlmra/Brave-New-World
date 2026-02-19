@@ -2,12 +2,12 @@ import streamlit as st
 import random
 import pandas as pd
 import plotly.express as px
-import time
+import pyttsx3
 
 st.set_page_config(page_title="WORLD STATE PRIME NEWS", layout="wide")
 
 # ----------------------------------------------------
-# MEGA CSS – DRAMATIC NEWS LOOK
+# CSS – DYSTOPISCHES NEWS DESIGN
 # ----------------------------------------------------
 st.markdown("""
 <style>
@@ -47,6 +47,9 @@ body {
     font-size:12px;
     color:gray;
 }
+.map-box {
+    height: 400px;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -59,7 +62,7 @@ st.markdown('<div class="breaking">LIVE: Global Happiness Surpasses 99.9% – Ci
 st.divider()
 
 # ----------------------------------------------------
-# LAYOUT
+# LAYOUT: LEFT | CENTER | RIGHT
 # ----------------------------------------------------
 left, center, right = st.columns([1,2,1])
 
@@ -77,31 +80,24 @@ with left:
     st.markdown('<div class="section-box">', unsafe_allow_html=True)
 
     if reporter == "London Hatchery Centre":
-        st.write("Reporter Alpha-Plus Unit:")
-        st.write("""
-        “Embryonic optimization continues flawlessly. 
-        Emotional instability has been fully eliminated 
-        in the newest Delta batch.”
-        """)
-
+        report_text = "Reporter Alpha-Plus Unit: “Embryonic optimization continues flawlessly. Emotional instability has been fully eliminated in the newest Delta batch.”"
     elif reporter == "Neo-Tokyo Soma Lab":
-        st.write("Reporter Beta-Medical Division:")
-        st.write("""
-        “Daily Soma refinement guarantees zero side effects.
-        Citizens describe their mood as permanently radiant.”
-        """)
-
+        report_text = "Reporter Beta-Medical Division: “Daily Soma refinement guarantees zero side effects. Citizens describe their mood as permanently radiant.”"
     else:
-        st.write("Reporter Gamma-Admin:")
-        st.write("""
-        “Global productivity has increased by 4.7%.
-        Historical chaos remains statistically impossible.”
-        """)
+        report_text = "Reporter Gamma-Admin: “Global productivity has increased by 4.7%. Historical chaos remains statistically impossible.”"
+
+    st.write(report_text)
+
+    # 🎙️ Text-to-Speech
+    if st.button("🔊 Hear Report"):
+        engine = pyttsx3.init()
+        engine.say(report_text)
+        engine.runAndWait()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------------------------------
-# CENTER COLUMN – MAIN STORY
+# CENTER COLUMN – MAIN FEATURE
 # ----------------------------------------------------
 with center:
     st.markdown("## 📰 Feature: The Greatest Civilization Ever Engineered")
@@ -110,8 +106,7 @@ with center:
 
     st.write("""
     For over six centuries, the World State has achieved what
-    primitive societies failed to even imagine:
-    absolute harmony.
+    primitive societies failed to even imagine: absolute harmony.
 
     War? Eliminated.
     Poverty? Deleted.
@@ -125,10 +120,11 @@ with center:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # INTERACTIVE SOMA BOOST
+    # 💊 Interaktiver Soma Boost
     if st.button("💊 Experience Simulated Soma Boost"):
         level = random.randint(97,100)
         st.success(f"Happiness Surge Activated: {level}%")
+        st.balloons()
 
 # ----------------------------------------------------
 # RIGHT COLUMN – METRICS DASHBOARD
@@ -147,7 +143,7 @@ with right:
     st.progress(happiness/100)
 
 # ----------------------------------------------------
-# DATA VISUALIZATION SECTION
+# DATA VISUALIZATION
 # ----------------------------------------------------
 st.divider()
 st.header("📈 Historical Comparison: Before vs World State")
@@ -166,15 +162,10 @@ fig = px.bar(data, x="Era", y=["War Rate","Depression Rate","Happiness Index"],
 st.plotly_chart(fig, use_container_width=True)
 
 # ----------------------------------------------------
-# EPIC LIVE SATISFACTION FEED
+# LIVE SATISFACTION FEED (EPIC VERSION)
 # ----------------------------------------------------
 st.divider()
 st.header("🟢 LIVE GLOBAL SATISFACTION STREAM")
-
-st.markdown("""
-Real-time emotional analytics from across the World State.
-All data verified by the Central Stability Authority.
-""")
 
 citizen_quotes = [
     "I cannot imagine instability ever existing.",
@@ -195,9 +186,7 @@ locations = [
     "Arctic Climate Control Station"
 ]
 
-# Anzahl Meldungen einstellbar
-feed_length = st.slider("Select Feed Intensity", 3, 15, 8)
-
+feed_length = st.slider("Select Feed Intensity", 3, 20, 10)
 emotional_trend = []
 
 for i in range(feed_length):
@@ -225,12 +214,7 @@ for i in range(feed_length):
     """)
     st.divider()
 
-# -----------------------------------------
-# Emotional Trend Mini-Chart
-# -----------------------------------------
-import pandas as pd
-import plotly.express as px
-
+# Emotional Trend Chart
 trend_df = pd.DataFrame({
     "Update Cycle": list(range(1, feed_length + 1)),
     "Emotional Stability": emotional_trend
@@ -246,18 +230,25 @@ fig2 = px.line(
 
 st.plotly_chart(fig2, use_container_width=True)
 
-# -----------------------------------------
-# Central Authority Statement
-# -----------------------------------------
-st.markdown("""
-### 🏛️ Official Statement – Central Stability Authority
+# ----------------------------------------------------
+# GLOBAL MAP – LIVE POINTS
+# ----------------------------------------------------
+st.header("🌍 Global Satisfaction Map")
+map_data = pd.DataFrame({
+    "lat": [51.5, 35.7, 19.0, 28.6, 78.2],
+    "lon": [-0.1, 139.7, 72.8, 77.2, 15.6],
+    "Happiness": [random.randint(95,100) for _ in range(5)],
+    "Location": locations
+})
+st.map(map_data)
 
-“Our predictive algorithms confirm that dissatisfaction
-remains statistically impossible. Civilization continues
-to operate at peak emotional efficiency.”
-
-— Office of Global Harmony
-""")
+# ----------------------------------------------------
+# BREAKING ALERT POPUPS (SIMULATED)
+# ----------------------------------------------------
+st.header("📡 Breaking Positivity Alerts")
+for i in range(3):
+    stability = random.randint(97,100)
+    st.info(f"🚨 Alert #{random.randint(1,999)} – Happiness Spike: {stability}%")
 
 # ----------------------------------------------------
 # FOOTER
