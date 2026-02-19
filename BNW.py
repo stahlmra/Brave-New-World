@@ -255,3 +255,74 @@ for i in range(3):
 # ----------------------------------------------------
 st.divider()
 st.markdown('<div class="footer">World State Prime News • Year 632 A.F. • All instability eradicated.</div>', unsafe_allow_html=True)
+
+st.header("🌍 Global Satisfaction Map – Mega Edition")
+
+# Generiere viele zufällige Punkte
+locations = [
+    "London Hatchery Centre", "Neo-Berlin Production Zone", "Pacific Soma Refinery",
+    "New Mumbai Conditioning Hub", "Arctic Climate Control Station", "Sao Paulo Bio-Lab",
+    "Cape Town Stability Center", "Tokyo Genetic Unit", "Sydney Harmony Hub",
+    "Moscow Admin Office", "Toronto Soma Lab", "Beijing Optimization Centre",
+    "Paris Productivity Zone", "Dubai Happiness Hub", "Singapore Conditioning Unit",
+    "Seoul Genetic Refinery", "Mexico City Control Hub", "Istanbul Stability Office",
+    "Bangkok Emotion Lab", "Cairo Harmony Station", "Buenos Aires Bio-Lab",
+    "Lagos Optimization Centre", "Jakarta Conditioning Hub", "Berlin Happiness Unit",
+    "Rome Admin Office", "Madrid Stability Centre", "Lisbon Genetic Lab",
+    "Stockholm Emotional Refinery", "Helsinki Harmony Hub", "Oslo Productivity Zone",
+    "Vienna Bio-Lab", "Warsaw Optimization Centre", "Athens Stability Office",
+    "Budapest Happiness Unit", "Prague Conditioning Hub", "Zurich Genetic Refinery",
+    "Brussels Emotion Lab", "Amsterdam Harmony Station", "Copenhagen Bio-Lab",
+    "Reykjavik Optimization Centre", "Havana Happiness Hub", "Lima Conditioning Unit",
+    "Bogota Genetic Lab", "Santiago Emotion Refinery", "Rio de Janeiro Stability Station",
+    "Kuala Lumpur Harmony Hub", "Manila Bio-Lab", "Bangladesh Optimization Unit",
+    "Mumbai Happiness Lab", "Beijing Conditioning Centre", "Tokyo Genetic Refinery"
+]
+
+# Zufällige lat/lon für Demo
+import numpy as np
+latitudes = np.random.uniform(-60, 80, len(locations))
+longitudes = np.random.uniform(-180, 180, len(locations))
+happiness_values = np.random.randint(95, 101, len(locations))
+castes_values = np.random.choice(["Alpha","Beta","Gamma","Delta","Epsilon"], len(locations))
+
+map_data = pd.DataFrame({
+    "lat": latitudes,
+    "lon": longitudes,
+    "Location": locations,
+    "Happiness": happiness_values,
+    "Caste": castes_values
+})
+
+# Streamlit Map
+st.map(map_data[["lat","lon"]])
+
+# Interaktive Plotly Map für Tooltip + Alerts
+st.markdown("### 🌐 Interactive Happiness Map")
+fig_map = px.scatter_mapbox(
+    map_data,
+    lat="lat",
+    lon="lon",
+    size="Happiness",
+    color="Happiness",
+    hover_name="Location",
+    hover_data=["Happiness","Caste"],
+    color_continuous_scale=px.colors.sequential.Viridis,
+    size_max=15,
+    zoom=1
+)
+fig_map.update_layout(mapbox_style="carto-darkmatter")
+fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+st.plotly_chart(fig_map, use_container_width=True)
+
+# ----------------------------------------------------
+# BREAKING POSITIVITY ALERTS
+# ----------------------------------------------------
+st.header("📡 Breaking Positivity Alerts – Mega Edition")
+alerts_triggered = map_data[map_data["Happiness"] >= 99]
+
+if not alerts_triggered.empty:
+    for idx, row in alerts_triggered.iterrows():
+        st.success(f"🚨 Breaking Positivity Alert: {row['Location']} – Happiness {row['Happiness']}% – Caste: {row['Caste']}")
+else:
+    st.info("No extreme positivity detected at this moment – global stability remains optimal.")
