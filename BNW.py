@@ -230,25 +230,6 @@ fig2 = px.line(
 
 st.plotly_chart(fig2, use_container_width=True)
 
-# ----------------------------------------------------
-# GLOBAL MAP – LIVE POINTS
-# ----------------------------------------------------
-st.header("🌍 Global Satisfaction Map")
-map_data = pd.DataFrame({
-    "lat": [51.5, 35.7, 19.0, 28.6, 78.2],
-    "lon": [-0.1, 139.7, 72.8, 77.2, 15.6],
-    "Happiness": [random.randint(95,100) for _ in range(5)],
-    "Location": locations
-})
-st.map(map_data)
-
-# ----------------------------------------------------
-# BREAKING ALERT POPUPS (SIMULATED)
-# ----------------------------------------------------
-st.header("📡 Breaking Positivity Alerts")
-for i in range(3):
-    stability = random.randint(97,100)
-    st.info(f"🚨 Alert #{random.randint(1,999)} – Happiness Spike: {stability}%")
 
 # ----------------------------------------------------
 # FOOTER
